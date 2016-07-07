@@ -68,7 +68,8 @@
             url: url,
             headers: {'X-CSRF-TOKEN': token},
             type: "POST",
-            data: input
+            data: {input},
+            dataType: "json",
         });
 
     });
