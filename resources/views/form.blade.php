@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+@include('modal')
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center">
@@ -28,7 +29,7 @@
             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}"/>
             <div class="col-md-5">
                 <label for="input"><h3>Entrada</h3></label>
-                <textarea name="input" id="input" cols="30" rows="12" class="form-control"></textarea>
+                <textarea name="input" id="input" cols="30" rows="12" class="form-control" required></textarea>
             </div>
             <div class="col-md-2">
                 <br><br><br><br><br><br><br><br>
@@ -58,21 +59,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
-<script type="text/javascript">
-    $('#formCube').on('submit', function (e) {
-        e.preventDefault();
-        var input = $('#input').val();
-        var token = $('#_token').val();
-        var url = this.action;
-        $.ajax({
-            url: url,
-            headers: {'X-CSRF-TOKEN': token},
-            type: "POST",
-            data: {input},
-            dataType: "json",
-        });
-
-    });
-</script>
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -20,9 +20,13 @@ class CubeController extends Controller
     private $query = "QUERY";
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function solve(Request $request)
     {
-       // $cube = new Cube(4);
+        // $cube = new Cube(4);
         $input = $request["input"];
         $this->input = explode(PHP_EOL, $input);
         /*se valida que la variable $this->input haya quedado con más de una posición, de no ser así, la constante
@@ -33,17 +37,26 @@ class CubeController extends Controller
             $this->input = explode("\n", $input);
         }
 
+
         //Se llama al método de validación para comprobar que la entrada esté correcta y poder proceder con el restro del código
         $this->validateInput();
 
-        //Se comprueba si se encontraron errores
-        if (count($this->errors)>0) {
-            dd($this->errors);
+        /*Se comprueba si se encontraron errores y se envia una respuesta json con status 422 de haber errores o con
+        status 200 de no haber errores*/
+        if (count($this->errors) > 0) {
+            return response()->json([
+                'html' => view('errors.input')->with('errors', $this->errors)->render(),
+                'tittle' => 'Errores en la entrada',
+            ], 422);
         } else {
-            echo "No hubo ningún error en la entrada";
+            //Acá es donde se llamará los métodos encargados de resolver el ejercicio
+            return response()->json([
+                'output' => 'proceso éxitoso',
+                'tittle' => 'Proceso éxitoso',
+            ], 200);
         }
-
     }
+
 
     //Validación del input
     public function validateInput()
