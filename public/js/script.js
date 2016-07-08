@@ -15,8 +15,11 @@ $('#formCube').on('submit', function (e) {
         success: function (data) {
             // console.log(data);
             $('#result').val(data.output);
+            $("#msg-success").fadeIn();
+            $("#msg-success").fadeOut(5000);
         },
         error: function (data) {
+            // console.log(data);
             if (data.status == 500) {
                 $('#result').val("");
                 $("#tittle").text("Error de formato de entrada");

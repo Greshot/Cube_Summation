@@ -26,8 +26,8 @@ class CubeController extends Controller
      */
     public function solve(Request $request)
     {
-        // $cube = new Cube(4);
         $input = $request["input"];
+        // dd($input);
         $this->input = explode(PHP_EOL, $input);
         /*se valida que la variable $this->input haya quedado con más de una posición, de no ser así, la constante
         PHP_EOL no funciono para dividir el string por cada salto de linea, entonces se hace uso nuevamente de la
@@ -49,11 +49,55 @@ class CubeController extends Controller
                 'tittle' => 'Errores en la entrada',
             ], 422);
         } else {
+            $this->lineCounter = 0;
+            $this->testCase();
+            //dd($this->output);
             //Acá es donde se llamará los métodos encargados de resolver el ejercicio
             return response()->json([
-                'output' => 'proceso éxitoso',
+                'output' => $this->output,
                 'tittle' => 'Proceso éxitoso',
             ], 200);
+        }
+    }
+
+    public function testCase()
+    {
+        $t = $this->input[$this->lineCounter];
+        $this->lineCounter++;
+        for ($i = 0; $i < $t; $i++) {
+            $this->operations();
+        }
+    }
+
+    public function operations()
+    {
+        $line = explode(" ", $this->input[$this->lineCounter]);
+        $this->lineCounter++;
+        $n = $line[0];
+        $m = $line[1];
+        $this->cube = new Cube($n);
+        for ($j = 0; $j < $m; $j++) {
+            $line = explode(" ", trim($this->input[$this->lineCounter]));
+            $this->lineCounter++;
+            $operation = strtoupper($line[0]);
+            //En este If, se valida que si la operación es "UPDATE", entonces se llama el método update del objeto
+            if ($operation == $this->update) {
+                $x = $line[1];
+                $y = $line[2];
+                $z = $line[3];
+                $w = $line[4];
+                $this->cube->update($x, $y, $z, $w);
+
+            } //o si la operación es "QUERY", se llama el método query del objeto
+            elseif ($operation == $this->query) {
+                $x1 = $line[1];
+                $y1 = $line[2];
+                $z1 = $line[3];
+                $x2 = $line[4];
+                $y2 = $line[5];
+                $z2 = $line[6];
+                $this->output .= $this->cube->query($x1, $y1, $z1, $x2, $y2, $z2) . "\n";
+            }
         }
     }
 

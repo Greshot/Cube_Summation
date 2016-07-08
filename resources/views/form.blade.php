@@ -25,6 +25,9 @@
         </div>
     </div>
     <div class="row">
+        <div id="msg-success" class="alert alert-success alert-dismissible text-center" role="alert" style="display: none">
+            <strong><h3>¡Proceso completado exitosamente!</h3></strong>
+        </div>
         <form action="/cube" name="formCube" id="formCube">
             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}"/>
             <div class="col-md-5">
